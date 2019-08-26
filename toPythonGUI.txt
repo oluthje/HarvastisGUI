@@ -1,1 +1,15 @@
-scene:|  WDW      ||           ||WWWWW      ||    D      ||    W      ||  P W      ||    W      ||    W      ||    W WDW  |sceneMessage:You wake up in a room littered with dead bodies.It appears this is a prisoner holding cell.You hear sirens onboard --starship sirens.You look around at the damage sustained.The door is open.sceneInfo:
+scene:|  WDW      |
+|           |
+|WWWWW      |
+|    D P    |
+|    W      |
+|    W      |
+|    W      |
+|    W      |
+|    W WDW  |
+sceneMessage:You wake up in a room littered with dead bodies.
+It appears this is a prisoner holding cell.
+You hear sirens onboard --starship sirens.
+You look around at the damage sustained.
+The door is open.
+sceneInfo:

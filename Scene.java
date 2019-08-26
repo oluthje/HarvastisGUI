@@ -4,6 +4,9 @@ public class Scene {
 	protected int playerPosUp;
 	protected int playerPosAcross;
 
+	protected static int oldNewFileVar = 0;
+	protected static int newFileVar = 0;
+
 	protected String[][] array;
 	protected String sceneAsString;
 	protected String storyInformation;
@@ -21,6 +24,25 @@ public class Scene {
 	protected ArrayList<Enemy> enemyList = new ArrayList<>();
 	protected ArrayList<Door> doorList = new ArrayList<>();
 	protected ArrayList<Key> keyList = new ArrayList<>();
+
+	public void checkIfNewFileInfo() {
+		boolean running = true;
+		while (running == true) {
+			RetrieveGUIInput getInput = new RetrieveGUIInput();
+			getInput.loadPlayerInputFromFile();
+			newFileVar = getInput.fileVar;
+			if (oldNewFileVar != newFileVar) {
+				input = getInput.playerInput;
+				running	= false;
+				oldNewFileVar = newFileVar;
+			}
+			try {
+				Thread.sleep(10);
+			} catch(InterruptedException ex) {
+				Thread.currentThread().interrupt();
+			}
+		}
+	}
 
 	public void placeEnemies() {
 		// Places all enemies from enemyList in the scene array
@@ -151,19 +173,23 @@ public class Scene {
 		}
 		System.out.println("="); // just goes to next line
 
+		SendToGUI sendToGUI = new SendToGUI();
+		sendToGUI.sendVariablesToGUI();
 		acceptPlayerInput();
 	}
 
 	public void acceptPlayerInput() {
 		removeOldEntities();
 
+		/*
 		System.out.println("Press ENTER to wait or ");
 		System.out.print("W, A, S, or D to move: ");
 		input = entered.nextLine();
 		input = input.toLowerCase();
+		// REPLACE THIS HERE STOOF WITH NEW INPUT GETTER THINGY
+		*/
 
-		SendToGUI sendToGUI = new SendToGUI();
-		sendToGUI.sendVariablesToGUI();
+		checkIfNewFileInfo();
 
 		// In future, create method that when called will update
 		// everything like enemy movement which are based on turns.

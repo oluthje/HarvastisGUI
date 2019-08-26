@@ -21,28 +21,27 @@ public class SendToGUI {
 			writer.write("scene:" + scene + "sceneMessage:" + sceneMessage + "\nsceneInfo:" + sceneInfo);
 			writer.close();
 		}catch(Exception e){System.out.println(e);}
-		
-		/*
-		try{
-			FileWriter fw=new FileWriter("toPythonGUI.txt");
-			fw.write("Welcome to javaTpoint.");
-			fw.close();
-		}catch(Exception e){System.out.println(e);}
-		*/
 	}
 }
 
 class RetrieveGUIInput {
 	protected String playerInput;
-	/*
-	retrieve from playerinput file the player input(WASD or enter)
-	*/
-	public void checkIfRecievedNewInput() {
-		/*
-		Have a variable in toJavaGame.txt that changes from 0 to 1 or 1 to 0
-		every time there is new information. 
+	protected int fileVar;
 
-		while 
-		*/
+	public void loadPlayerInputFromFile() {
+		try {
+			String file;
+			BufferedReader reader = new BufferedReader(new FileReader("toJavaGame.txt"));
+			while ((file = reader.readLine()) != null) {
+				fileVar = file.charAt(0);
+				//System.out.println("fileVar: " + fileVar);
+
+				playerInput = file.substring(1);
+				//System.out.println("playerInput: " + playerInput);
+			}
+			reader.close();
+		}catch(Exception e){System.out.println(e);}
 	}
 }
+
+
