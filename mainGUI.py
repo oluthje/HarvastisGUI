@@ -1,5 +1,6 @@
 from Tkinter import *
 import os
+import time
 
 class Gameboard:
 	def __init__(self, master):
@@ -41,26 +42,26 @@ class Gameboard:
 
 	def return_down(self, event):
 		print("pressed return")
-		self.update_game_board()
 		self.save_keypress_to_file("Return")
+		self.update_game_board()
 
 	def key_down(self, event):
 		if event.char == "w":
 			print("pressed w")
-			self.update_game_board()
 			self.save_keypress_to_file(event.char)
+			self.update_game_board()
 		elif event.char == "a":
 			print("pressed a")
-			self.update_game_board()
 			self.save_keypress_to_file(event.char)
+			self.update_game_board()
 		elif event.char == "s":
 			print("pressed s")
-			self.update_game_board()
 			self.save_keypress_to_file(event.char)
+			self.update_game_board()
 		elif event.char == "d":
 			print("pressed d")
-			self.update_game_board()
 			self.save_keypress_to_file(event.char)
+			self.update_game_board()
 
 	def save_keypress_to_file(self, key):
 		if self.inform_java_if_new_input == 1:
@@ -71,6 +72,8 @@ class Gameboard:
 		txtfile = open("toJavaGame.txt","w")
 		txtfile.write(str(self.inform_java_if_new_input) + key)
 		txtfile.close()
+
+	#def wait_for_new
 
 	def find_scene_dimensions(self):
 		# finds width of scene game: self.game_board_sizex
@@ -91,7 +94,6 @@ class Gameboard:
 		self.raw_scene = self.scene.replace("|","")
 		self.raw_scene = self.raw_scene.replace("\n","")
 		print(self.raw_scene)
-
 
 	def load_game_info(self):
 		txtfile = open("toPythonGUI.txt","r+")
@@ -124,6 +126,9 @@ class Gameboard:
 		print(self.square)
 
 	def update_game_board(self):
+		# sleep to wait for new file info
+		time.sleep(0.05)
+
 		self.load_game_info()
 		self.get_variables_from_file_str()
 		self.translate_scene_to_array()
