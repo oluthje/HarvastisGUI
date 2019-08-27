@@ -31,6 +31,10 @@ public class Scene {
 			RetrieveGUIInput getInput = new RetrieveGUIInput();
 			getInput.loadPlayerInputFromFile();
 			newFileVar = getInput.fileVar;
+			if (newFileVar == 9) {
+				System.out.println("stopped java program");
+				System.exit(0);
+			}
 			if (oldNewFileVar != newFileVar) {
 				input = getInput.playerInput;
 				running	= false;
@@ -189,6 +193,7 @@ public class Scene {
 		// REPLACE THIS HERE STOOF WITH NEW INPUT GETTER THINGY
 		*/
 
+		System.out.println("checking if new file info");
 		checkIfNewFileInfo();
 
 		// In future, create method that when called will update

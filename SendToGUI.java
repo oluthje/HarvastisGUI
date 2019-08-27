@@ -34,10 +34,7 @@ class RetrieveGUIInput {
 			BufferedReader reader = new BufferedReader(new FileReader("toJavaGame.txt"));
 			while ((file = reader.readLine()) != null) {
 				fileVar = file.charAt(0);
-				//System.out.println("fileVar: " + fileVar);
-
 				playerInput = file.substring(1);
-				//System.out.println("playerInput: " + playerInput);
 			}
 			reader.close();
 		}catch(Exception e){System.out.println(e);}

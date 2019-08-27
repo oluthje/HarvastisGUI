@@ -5,20 +5,17 @@ import time
 class Gameboard:
 	def __init__(self, master):
 		self.master = master
+		self.master.protocol("WM_DELETE_WINDOW", self.on_closing)
 
 		self.inform_java_if_new_input = 1
-
 		self.game_board_label_list = []
-
 		self.game_board_sizex = None
 		self.game_board_sizey = None
 		self.square = None
-		
 		self.file = None
 		self.scene = None
 		self.sceneMessage = None
 		self.sceneInfo = None
-
 		self.raw_scene = None
 
 		self.main_frame = Frame(self.master, padx=25, pady=25)
@@ -28,9 +25,13 @@ class Gameboard:
 		self.main_frame.pack()
 
 		self.board_frame = Frame(self.main_frame, bd=1, relief=GROOVE, padx=10, pady=5)
-		self.board_frame.pack()
-		self.some_label = Label(self.main_frame, text="Hello world!")
-		self.some_label.pack()
+		self.board_frame.pack(side=LEFT)
+
+		self.story_info_board_frame = Frame(self.main_frame, bd=1, relief=GROOVE, padx=10, pady=5)
+		self.story_info_board_frame.pack(side=RIGHT, anchor=N)
+		self.story_info_title_label = TitleLabel(self.master, self.story_info_board_frame, "Story")
+		self.story_info_label = Label(self.story_info_board_frame, text=self.sceneMessage)
+		self.story_info_label.pack(side=LEFT)
 
 		self.load_game_to_GUI()
 
@@ -39,6 +40,10 @@ class Gameboard:
 		self.get_variables_from_file_str()
 		self.translate_scene_to_array()
 		self.load_game_board()
+
+		# fixes issue with game using old visual from previous running of the program
+		#self.save_keypress_to_file("Return")
+		#self.update_game_board()
 
 	def return_down(self, event):
 		print("pressed return")
@@ -66,14 +71,15 @@ class Gameboard:
 	def save_keypress_to_file(self, key):
 		if self.inform_java_if_new_input == 1:
 			self.inform_java_if_new_input = 0
-		else:
+		elif self.inform_java_if_new_input == 0:
 			self.inform_java_if_new_input = 1
 
 		txtfile = open("toJavaGame.txt","w")
 		txtfile.write(str(self.inform_java_if_new_input) + key)
 		txtfile.close()
 
-	#def wait_for_new
+	def update_story_message(self):
+		self.story_info_label.configure(text=self.sceneMessage)
 
 	def find_scene_dimensions(self):
 		# finds width of scene game: self.game_board_sizex
@@ -93,12 +99,13 @@ class Gameboard:
 		# use self.raw_scene
 		self.raw_scene = self.scene.replace("|","")
 		self.raw_scene = self.raw_scene.replace("\n","")
-		print(self.raw_scene)
+		#print(self.raw_scene)
 
 	def load_game_info(self):
 		txtfile = open("toPythonGUI.txt","r+")
 		self.file = txtfile.read()
 		txtfile.close()
+		self.update_story_message()
 
 	def get_variables_from_file_str(self):
 		temp_var = None
@@ -110,7 +117,12 @@ class Gameboard:
 		self.scene = self.file[scene_in_file_index:sceneMessage_in_file_index]
 		temp_var = self.scene.replace("scene:","")
 		self.scene = temp_var
-		print(self.scene)
+
+		#print("self.file:" + self.file)
+		self.sceneMessage = self.file[sceneMessage_in_file_index:sceneInfo_in_file_index]
+		print("scene message thing:" + self.sceneMessage)
+		self.sceneMessage = self.sceneMessage.replace("sceneMessage:","")
+		#print("sceneMessage:" + self.sceneMessage)
 
 	def translate_scene_to_array(self):
 		self.find_scene_dimensions()
@@ -120,10 +132,8 @@ class Gameboard:
 		index = 0
 		for y in range(self.game_board_sizey):
 			for x in range(self.game_board_sizex):
-				print("x: " + str(x) + "| y: " + str(y) + " " + self.raw_scene[index])
 				self.square[y][x] = self.raw_scene[index]
 				index += 1
-		print(self.square)
 
 	def update_game_board(self):
 		# sleep to wait for new file info
@@ -147,6 +157,20 @@ class Gameboard:
 				self.label = Label(self.board_frame, text=label_text, font=("Courier", 35), borderwidth=1,)
 				self.label.grid(row=y,column=x)
 				self.game_board_label_list.append(self.label)
+
+	def on_closing(self):
+		self.inform_java_if_new_input = 9
+		self.save_keypress_to_file("w")
+		print("terminated java app")
+		self.master.destroy()
+
+class TitleLabel:
+	def __init__(self, master, frame, label_name):
+		self.frame = frame
+		self.title_label = Label(self.frame, text=label_name)
+		self.title_label.pack(anchor=W)
+		self.label_font = ('Helvetica', 15, 'bold')
+		self.title_label.config(font=self.label_font)
 
 root = Tk()
 Gameboard = Gameboard(root)
