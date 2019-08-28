@@ -17,7 +17,7 @@ public class Scene {
 	protected boolean firstTablePrint = true;
 	protected boolean firstSceneSpawn = true;
 	protected static Scanner entered = new Scanner(System.in);
-	protected static String input;
+	protected static String input = "";
 	protected static Player player = new Player();
 	protected static Harvastis game = new Harvastis();
 
@@ -179,6 +179,8 @@ public class Scene {
 
 		SendToGUI sendToGUI = new SendToGUI();
 		sendToGUI.sendVariablesToGUI();
+
+		System.out.println("input: " + input);
 		acceptPlayerInput();
 	}
 

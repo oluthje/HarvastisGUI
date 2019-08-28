@@ -22,15 +22,23 @@ class Gameboard:
 		self.main_frame.bind("<Key>", self.key_down)
 		self.main_frame.bind("<Return>", self.return_down)
 		self.main_frame.focus_set()
-		self.main_frame.pack()
+		self.main_frame.pack(anchor="c")
 
 		self.board_frame = Frame(self.main_frame, bd=1, relief=GROOVE, padx=10, pady=5)
 		self.board_frame.pack(side=LEFT)
 
+		# displays story info(num of keys)
 		self.story_info_board_frame = Frame(self.main_frame, bd=1, relief=GROOVE, padx=10, pady=5)
-		self.story_info_board_frame.pack(side=RIGHT, anchor=N)
-		self.story_info_title_label = TitleLabel(self.master, self.story_info_board_frame, "Story")
+		self.story_info_board_frame.pack(side=LEFT, anchor=N)
+		self.story_info_title_label = TitleLabel(self.master, self.story_info_board_frame, "Story information")
 		self.story_info_label = Label(self.story_info_board_frame, text=self.sceneMessage)
+		self.story_info_label.pack(side=LEFT)
+
+		# displays story
+		self.story_message_frame = Frame(self.main_frame, bd=1, relief=GROOVE, padx=10, pady=5)
+		self.story_message_frame.pack(side=LEFT)
+		self.story_message_title_label = TitleLabel(self.master, self.story_message_frame, "Story")
+		self.story_info_label = Label(self.story_message_frame, text=self.sceneMessage)
 		self.story_info_label.pack(side=LEFT)
 
 		self.load_game_to_GUI()
@@ -175,6 +183,16 @@ class TitleLabel:
 root = Tk()
 Gameboard = Gameboard(root)
 root.mainloop()
+
+
+# Error that gets thrown. My suspicion is that sometimes input(in scene.java) becomes 'null' which crashes java
+
+#Exception in thread "main" java.lang.NullPointerException
+	#at Scene.acceptPlayerInput(Scene.java:202)
+	#at Scene.printScene(Scene.java:182)
+	#at Harvastis.start(Harvastis.java:24)
+	#at Harvastis.main(Harvastis.java:62)
+
 
 
 
