@@ -28,7 +28,7 @@ class Gameboard:
 		self.board_frame.pack(side=LEFT)
 
 		# Frame that contains story info and story message
-		self.info_frame = Frame(self.main_frame, padx=10, pady=5)
+		self.info_frame = Frame(self.main_frame)
 		self.info_frame.pack(side=LEFT, anchor=N)
 
 		# displays story info(num of keys)
@@ -118,7 +118,6 @@ class Gameboard:
 		txtfile = open("toPythonGUI.txt","r+")
 		self.file = txtfile.read()
 		txtfile.close()
-		self.update_story_message()
 
 	def get_variables_from_file_str(self):
 		scene_in_file_index = self.file.find("scene:")
@@ -136,8 +135,6 @@ class Gameboard:
 		# Gets scene info and assigns it to sceneInfo
 		self.sceneInfo = self.file[sceneInfo_in_file_index:]
 		print("sceneInfo===" + self.sceneInfo)
-
-
 
 	def translate_scene_to_array(self):
 		self.find_scene_dimensions()
@@ -157,6 +154,8 @@ class Gameboard:
 		self.load_game_info()
 		self.get_variables_from_file_str()
 		self.translate_scene_to_array()
+
+		self.update_story_message()
 
 		index = 0
 		for y in range(self.game_board_sizey):
