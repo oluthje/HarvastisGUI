@@ -35,15 +35,15 @@ class Gameboard:
 		self.story_info_board_frame = Frame(self.info_frame, bd=1, relief=GROOVE, padx=10, pady=5)
 		self.story_info_board_frame.pack(anchor=W)
 		self.story_info_title_label = TitleLabel(self.master, self.story_info_board_frame, "Story information")
-		self.story_info_label = Label(self.story_info_board_frame, text=self.sceneMessage)
+		self.story_info_label = Label(self.story_info_board_frame, text=self.sceneInfo)
 		self.story_info_label.pack(side=LEFT)
 
 		# displays story
 		self.story_message_frame = Frame(self.info_frame, bd=1, relief=GROOVE, padx=10, pady=5)
 		self.story_message_frame.pack(side=LEFT)
 		self.story_message_title_label = TitleLabel(self.master, self.story_message_frame, "Story")
-		self.story_info_label = Label(self.story_message_frame, text=self.sceneMessage)
-		self.story_info_label.pack(side=LEFT)
+		self.story_message_label = Label(self.story_message_frame, text=self.sceneMessage)
+		self.story_message_label.pack(side=LEFT)
 
 		self.load_game_to_GUI()
 
@@ -91,7 +91,8 @@ class Gameboard:
 		txtfile.close()
 
 	def update_story_message(self):
-		self.story_info_label.configure(text=self.sceneMessage)
+		self.story_info_label.configure(text=self.sceneInfo)
+		self.story_message_label.configure(text=self.sceneMessage)
 
 	def find_scene_dimensions(self):
 		# finds width of scene game: self.game_board_sizex
@@ -120,21 +121,23 @@ class Gameboard:
 		self.update_story_message()
 
 	def get_variables_from_file_str(self):
-		temp_var = None
-
 		scene_in_file_index = self.file.find("scene:")
 		sceneMessage_in_file_index = self.file.find("sceneMessage:")
 		sceneInfo_in_file_index = self.file.find("sceneInfo:")
 
+		# Gets scene and assigns it to self.scene
 		self.scene = self.file[scene_in_file_index:sceneMessage_in_file_index]
-		temp_var = self.scene.replace("scene:","")
-		self.scene = temp_var
+		self.scene = self.scene.replace("scene:","")
 
-		#print("self.file:" + self.file)
+		# Gets scene message and assigns it to sceneMessage
 		self.sceneMessage = self.file[sceneMessage_in_file_index:sceneInfo_in_file_index]
-		print("scene message thing:" + self.sceneMessage)
 		self.sceneMessage = self.sceneMessage.replace("sceneMessage:","")
-		#print("sceneMessage:" + self.sceneMessage)
+
+		# Gets scene info and assigns it to sceneInfo
+		self.sceneInfo = self.file[sceneInfo_in_file_index:]
+		print("sceneInfo===" + self.sceneInfo)
+
+
 
 	def translate_scene_to_array(self):
 		self.find_scene_dimensions()

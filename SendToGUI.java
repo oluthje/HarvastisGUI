@@ -5,10 +5,39 @@ public class SendToGUI {
 	protected String sceneMessage;
 	protected String sceneInfo;
 
+	public void getCurrentSceneMessage() {
+		
+	}
+
 	public void sendVariablesToGUI() {
 		Harvastis game = new Harvastis();
+
+		// gets current scene message
+		switch (game.currentScene) {
+			case "cellScene":
+				sceneMessage = game.cellScene.storyInformation;
+				break;
+			case "hallwayOneScene":
+				sceneMessage = game.hallwayOneScene.storyInformation;
+				break;
+			case "hallwayTwoScene":
+				sceneMessage = game.hallwayTwoScene.storyInformation;
+				break;
+			case "armoryScene":
+				sceneMessage = game.armoryScene.storyInformation;
+				break;
+			case "hallwayThreeScene":
+				sceneMessage = game.hallwayThreeScene.storyInformation;
+				break;
+			case "keyRoomScene":
+				sceneMessage = game.keyRoomScene.storyInformation;
+				break;
+			case "escapePodScene":
+				sceneMessage = game.escapePodScene.storyInformation;
+				break;
+		}
+
 		scene = game.cellScene.sceneToGUI;
-		sceneMessage = game.cellScene.currentStoryInformation;
 		sceneInfo = game.cellScene.sceneInformation;
 
 		saveVariablesToFile();
