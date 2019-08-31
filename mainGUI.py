@@ -27,15 +27,19 @@ class Gameboard:
 		self.board_frame = Frame(self.main_frame, bd=1, relief=GROOVE, padx=10, pady=5)
 		self.board_frame.pack(side=LEFT)
 
+		# Frame that contains story info and story message
+		self.info_frame = Frame(self.main_frame, padx=10, pady=5)
+		self.info_frame.pack(side=LEFT, anchor=N)
+
 		# displays story info(num of keys)
-		self.story_info_board_frame = Frame(self.main_frame, bd=1, relief=GROOVE, padx=10, pady=5)
-		self.story_info_board_frame.pack(side=LEFT, anchor=N)
+		self.story_info_board_frame = Frame(self.info_frame, bd=1, relief=GROOVE, padx=10, pady=5)
+		self.story_info_board_frame.pack(anchor=W)
 		self.story_info_title_label = TitleLabel(self.master, self.story_info_board_frame, "Story information")
 		self.story_info_label = Label(self.story_info_board_frame, text=self.sceneMessage)
 		self.story_info_label.pack(side=LEFT)
 
 		# displays story
-		self.story_message_frame = Frame(self.main_frame, bd=1, relief=GROOVE, padx=10, pady=5)
+		self.story_message_frame = Frame(self.info_frame, bd=1, relief=GROOVE, padx=10, pady=5)
 		self.story_message_frame.pack(side=LEFT)
 		self.story_message_title_label = TitleLabel(self.master, self.story_message_frame, "Story")
 		self.story_info_label = Label(self.story_message_frame, text=self.sceneMessage)
