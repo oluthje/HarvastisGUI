@@ -118,7 +118,6 @@ class Gameboard:
 		txtfile = open("toPythonGUI.txt","r+")
 		self.file = txtfile.read()
 		txtfile.close()
-		self.update_story_message()
 
 	def get_variables_from_file_str(self):
 		scene_in_file_index = self.file.find("scene:")
@@ -157,6 +156,8 @@ class Gameboard:
 		self.load_game_info()
 		self.get_variables_from_file_str()
 		self.translate_scene_to_array()
+
+		self.update_story_message()
 
 		index = 0
 		for y in range(self.game_board_sizey):
