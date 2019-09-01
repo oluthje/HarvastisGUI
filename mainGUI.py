@@ -45,6 +45,19 @@ class Gameboard:
 		self.story_message_label = Label(self.story_message_frame, text=self.sceneMessage)
 		self.story_message_label.pack(side=LEFT)
 
+
+
+		self.gameboard_canvas = Canvas(self.board_frame, width=300, height=200)
+
+		# pack the canvas into a frame/form
+		self.gameboard_canvas.pack(expand=YES, fill=BOTH)
+
+		# load the .gif image file
+		self.wall_image = PhotoImage(file='wall.gif')
+		self.door_image = PhotoImage(file='door.gif')
+		self.player_image = PhotoImage(file='player.gif')
+		self.floor_image = PhotoImage(file='floor.gif')
+
 		self.load_game_to_GUI()
 
 	def load_game_to_GUI(self):
@@ -56,6 +69,46 @@ class Gameboard:
 		# fixes issue with game using old visual from previous running of the program
 		#self.save_keypress_to_file("Return")
 		#self.update_game_board()
+
+	def update_game_board(self):
+		# sleep to wait for new file info
+		time.sleep(0.05)
+
+		self.load_game_info()
+		self.get_variables_from_file_str()
+		self.translate_scene_to_array()
+
+		self.update_story_message()
+
+		#index = 0
+		self.gameboard_canvas.configure(width=self.game_board_sizex*32, height=self.game_board_sizey*32)
+		for y in range(self.game_board_sizey):
+			for x in range(self.game_board_sizex):
+				label_text = self.square[y][x]
+				#self.game_board_label_list[index].configure(text=label_text)
+				if label_text == "W":
+					self.gameboard_canvas.create_image(x*32, y*32, image=self.wall_image, anchor=NW)
+				elif label_text == "D":
+					self.gameboard_canvas.create_image(x*32, y*32, image=self.door_image, anchor=NW)
+				elif label_text == "P":
+					self.gameboard_canvas.create_image(x*32, y*32, image=self.player_image, anchor=NW)
+				elif label_text == " ":
+					self.gameboard_canvas.create_image(x*32, y*32, image=self.floor_image, anchor=NW)
+
+	def load_game_board(self):
+		for y in range(self.game_board_sizey):
+			for x in range(self.game_board_sizex):
+				label_text = self.square[y][x]
+				if label_text == "W":
+					self.gameboard_canvas.create_image(x*32, y*32, image=self.wall_image, anchor=NW)
+				elif label_text == "D":
+					self.gameboard_canvas.create_image(x*32, y*32, image=self.door_image, anchor=NW)
+				elif label_text == "P":
+					self.gameboard_canvas.create_image(x*32, y*32, image=self.player_image, anchor=NW)
+				elif label_text == " ":
+					self.gameboard_canvas.create_image(x*32, y*32, image=self.floor_image, anchor=NW)
+
+		#self.game_board_label_list[0].configure(image=wall_image)
 
 	def return_down(self, event):
 		print("pressed return")
@@ -149,31 +202,6 @@ class Gameboard:
 				self.square[y][x] = self.raw_scene[index]
 				index += 1
 
-	def update_game_board(self):
-		# sleep to wait for new file info
-		time.sleep(0.05)
-
-		self.load_game_info()
-		self.get_variables_from_file_str()
-		self.translate_scene_to_array()
-
-		self.update_story_message()
-
-		index = 0
-		for y in range(self.game_board_sizey):
-			for x in range(self.game_board_sizex):
-				label_text = self.square[y][x]
-				self.game_board_label_list[index].configure(text=label_text)
-				index += 1
-
-	def load_game_board(self):
-		for y in range(self.game_board_sizey):
-			for x in range(self.game_board_sizex):
-				label_text = self.square[y][x]
-				self.label = Label(self.board_frame, text=label_text, font=("Courier", 35), borderwidth=1,)
-				self.label.grid(row=y,column=x)
-				self.game_board_label_list.append(self.label)
-
 	def on_closing(self):
 		self.inform_java_if_new_input = 9
 		self.save_keypress_to_file("w")
@@ -187,6 +215,10 @@ class TitleLabel:
 		self.title_label.pack(anchor=W)
 		self.label_font = ('Helvetica', 15, 'bold')
 		self.title_label.config(font=self.label_font)
+
+class GameCanvas:
+	def __init__(self, master, frame):
+		self.canvas_frame = frame
 
 root = Tk()
 Gameboard = Gameboard(root)
