@@ -2,7 +2,7 @@ scene:|    WDW    |
 |           |
 |           |
 |W         W|
-|D   P     D|
+|D    P    D|
 |W         W|
 |           |
 |           |

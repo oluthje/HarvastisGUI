@@ -45,9 +45,7 @@ class Gameboard:
 		self.story_message_label = Label(self.story_message_frame, text=self.sceneMessage)
 		self.story_message_label.pack(side=LEFT)
 
-
-
-		self.gameboard_canvas = Canvas(self.board_frame, width=300, height=200)
+		self.gameboard_canvas = Canvas(self.board_frame, width=352, height=288)
 
 		# pack the canvas into a frame/form
 		self.gameboard_canvas.pack(expand=YES, fill=BOTH)
@@ -66,6 +64,8 @@ class Gameboard:
 		self.translate_scene_to_array()
 		self.load_game_board()
 
+		#self.gameboard_canvas.configure(width=self.game_board_sizex*32, height=self.game_board_sizey*32)
+
 		# fixes issue with game using old visual from previous running of the program
 		#self.save_keypress_to_file("Return")
 		#self.update_game_board()
@@ -80,8 +80,9 @@ class Gameboard:
 
 		self.update_story_message()
 
-		#index = 0
-		self.gameboard_canvas.configure(width=self.game_board_sizex*32, height=self.game_board_sizey*32)
+		# fixes lag
+		self.gameboard_canvas.delete(ALL)
+
 		for y in range(self.game_board_sizey):
 			for x in range(self.game_board_sizex):
 				label_text = self.square[y][x]
